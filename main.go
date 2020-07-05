@@ -37,7 +37,7 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	fmt.Printf("%s\n", all)
+	//fmt.Printf("%s\n", all)
 	PrintCityList(all)
 
 }
@@ -52,11 +52,11 @@ func determineEncoding(r io.Reader) encoding.Encoding {
 }
 
 func PrintCityList(contents []byte) {
-	re := regexp.MustCompile(`<a href="httpL//www.zhenai.com/zhenghun/[0-9a-z]+"[^>]*>[^<]</a>`)
-	matches := re.FindAll(contents, -1)
+	re := regexp.MustCompile(`<a href="(http://www.zhenai.com/zhenghun/[0-9a-z]+)"[^>]*>([^<]+)</a>`)
+	matches := re.FindAllSubmatch(contents, -1)
 
 	for _, m := range matches {
-		fmt.Println("%s\n", m)
+		fmt.Printf("City:%s, URL:%s\n", m[2], m[1])
 	}
 
 	fmt.Printf("match found:%d\n", len(matches))
