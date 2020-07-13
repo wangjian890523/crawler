@@ -10,6 +10,7 @@ func main() {
 		Url:       "http://www.zhenai.com/zhenghun",
 		ParseFunc: parser.ParseCityList,
 	})
+
 }
 
 /*func tMain() {*/
