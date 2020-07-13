@@ -1,0 +1,46 @@
+package parser
+
+import (
+	"io/ioutil"
+	"testing"
+)
+
+func TestParseProfile(t *testing.T) {
+	// t.Fatal("not implemented")
+	contents, err := ioutil.ReadFile("profile_test_data.html")
+	if err != nil {
+		panic(err)
+	}
+
+	result := ParseProfile(contents)
+	if len(result.Items) != 1 {
+		t.Errorf("Items should contain 1 "+"elemen; but was %v", result.Items)
+	}
+
+	profile := result.Items[0].(model.Profile)
+
+	expected := model.Profile{
+		Url:  "http://album.zhenai.com/u/108906739",
+		Type: "zhenai",
+		Id:   "108906739",
+		Payload: model.Profile{
+			Age:        34,
+			Height:     162,
+			Weight:     57,
+			Income:     "3001-5000元",
+			Gender:     "女",
+			Name:       "安静的雪",
+			Xinzuo:     "牡羊座",
+			Occupation: "人事/行政",
+			Marriage:   "离异",
+			House:      "已购房",
+			Hokou:      "山东菏泽",
+			Education:  "大学本科",
+			Car:        "未购车",
+		},
+	}
+
+	if profile != expected {
+		t.Error("expected %v; but was %v", expected, profile)
+	}
+}
