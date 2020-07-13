@@ -1,6 +1,7 @@
 package parser
 
 import (
+	"github.com/wangjian890523/crawler/model"
 	"io/ioutil"
 	"testing"
 )
@@ -12,7 +13,7 @@ func TestParseProfile(t *testing.T) {
 		panic(err)
 	}
 
-	result := ParseProfile(contents)
+	result := ParseProfile(contents,"安静的雪")
 	if len(result.Items) != 1 {
 		t.Errorf("Items should contain 1 "+"elemen; but was %v", result.Items)
 	}
@@ -20,10 +21,12 @@ func TestParseProfile(t *testing.T) {
 	profile := result.Items[0].(model.Profile)
 
 	expected := model.Profile{
+		/*
 		Url:  "http://album.zhenai.com/u/108906739",
 		Type: "zhenai",
 		Id:   "108906739",
 		Payload: model.Profile{
+		*/
 			Age:        34,
 			Height:     162,
 			Weight:     57,
@@ -37,10 +40,9 @@ func TestParseProfile(t *testing.T) {
 			Hokou:      "山东菏泽",
 			Education:  "大学本科",
 			Car:        "未购车",
-		},
 	}
 
 	if profile != expected {
-		t.Error("expected %v; but was %v", expected, profile)
+		t.Errorf("expected %v; but was %v", expected, profile)
 	}
 }
