@@ -3,13 +3,16 @@ package parser
 import (
 	"regexp"
 	"strconv"
+
+	"github.com/wangjian890523/crawler/modle"
 )
 
 var ageRe = regexp.MustCompile(`<td><span class="label">年龄:</span>([\d]+)岁</td>`)
-var marriageRe = regexpp.MustCompile(`<td><span class="label">婚况:</span>([^<]+)岁</td>`)
+var marriageRe = regexp.MustCompile(`<td><span class="label">婚况:</span>([^<]+)岁</td>`)
 
-func ParseProfile(contents []byte) engine.PareseResult {
+func ParseProfile(contents []byte, name string) engine.PareseResult {
 	profile := modle.Profile{}
+	profile.Name = name
 
 	age, err := strconv.Atoi(extractString(contents, ageRe))
 	if err != nil {
