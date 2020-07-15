@@ -79,43 +79,42 @@ func ParseProfile(contents []byte, name string) engine.ParseResult {
 		contents, xinzuoRe)
 
 	/*
-	result := engine.ParseResult{
-		Items: []engine.Item{
-			{
-				Url:  url,
-				Type: "zhenai",
-				Id: extractString(
-					[]byte(url), idUrlRe),
-				Payload: profile,
+		result := engine.ParseResult{
+			Items: []engine.Item{
+				{
+					Url:  url,
+					Type: "zhenai",
+					Id: extractString(
+						[]byte(url), idUrlRe),
+					Payload: profile,
+				},
 			},
-		},
-	}
+		}
 	*/
 
 	//match := guessRe.FindAllSubmatch( contents, -1)
 	/*
-	for _, m := range matches {
-		result.Requests = append(result.Requests,
-			engine.Request{
-				Url: string(m[1]),
-				Parser: NewProfileParser(
-					string(m[2])),
-			})
-	}
+		for _, m := range matches {
+			result.Requests = append(result.Requests,
+				engine.Request{
+					Url: string(m[1]),
+					Parser: NewProfileParser(
+						string(m[2])),
+				})
+		}
 	*/
 	/*
-	match = marriageRe.FindSubmatch(contents)
-	if match != nil{
-		profile.Marriage = string(match[1])
-	}
+		match = marriageRe.FindSubmatch(contents)
+		if match != nil{
+			profile.Marriage = string(match[1])
+		}
 
 
 	*/
 
 	result := engine.ParseResult{
-		Items:[]interface{}{profile},
+		Items: []interface{}{profile},
 	}
-
 
 	return result
 }
