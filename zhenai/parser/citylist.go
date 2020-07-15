@@ -6,7 +6,10 @@ import (
 	"github.com/wangjian890523/crawler/engine"
 )
 
-const cityListRe = `<a href="(http://www.zhenai.com/zhenghun/[0-9a-z]+)"[^>]*>([^<]+)</a>`
+//const cityListRe = `<a href="(http://www.zhenai.com/zhenghun/[0-9a-z]+)"[^>]*>([^<]+)</a>`
+
+const cityListRe = `<a href="(.*www\.zhenai\.com/zhenghun/[0-9a-z]+)"[^>]*>([^<]+)</a>`
+
 
 func ParseCityList(contents []byte) engine.ParseResult {
 
