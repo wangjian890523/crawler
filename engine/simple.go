@@ -6,9 +6,9 @@ import (
 	"github.com/wangjian890523/crawler/fetcher"
 )
 
+type SimpleEngine struct{}
 
-type SimpleEngine struct {}
-func (SimpleEngine)Run(seeds ...Request) {
+func (SimpleEngine) Run(seeds ...Request) {
 	var requests []Request
 	for _, r := range seeds {
 		requests = append(requests, r)
@@ -27,7 +27,7 @@ func (SimpleEngine)Run(seeds ...Request) {
 		//parseResult := r.ParseFunc(body)
 
 		parseResult, err := worker(r)
-		if err != nil{
+		if err != nil {
 			continue
 		}
 		requests = append(requests, parseResult.Requests...)
@@ -38,14 +38,13 @@ func (SimpleEngine)Run(seeds ...Request) {
 	}
 }
 
-
-func worker(r Request) (ParseResult, error){
+func worker(r Request) (ParseResult, error) {
 	log.Printf("Fetching %s", r.Url)
 	body, err := fetcher.Fetch(r.Url)
 	if err != nil {
 		log.Printf("Fetcher:error"+r.Url, err)
-		return   ParseResult{},err
+		return ParseResult{}, err
 	}
 
-	return r.ParseFunc(body),nil
+	return r.ParseFunc(body), nil
 }

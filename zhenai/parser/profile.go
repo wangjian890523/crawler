@@ -1,6 +1,7 @@
 package parser
 
 import (
+	"github.com/lunny/log"
 	"github.com/wangjian890523/crawler/engine"
 	"regexp"
 	"strconv"
@@ -39,6 +40,7 @@ var idUrlRe = regexp.MustCompile(
 
 func ParseProfile(contents []byte, name string) engine.ParseResult {
 	profile := model.Profile{}
+
 	profile.Name = name
 
 	age, err := strconv.Atoi(
@@ -115,6 +117,8 @@ func ParseProfile(contents []byte, name string) engine.ParseResult {
 	result := engine.ParseResult{
 		Items: []interface{}{profile},
 	}
+
+	log.Printf("user：%v", profile )
 
 	return result
 }

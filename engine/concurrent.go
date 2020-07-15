@@ -1,52 +1,60 @@
 package engine
 
-import "fmt"
+import "github.com/lunny/log"
 
-type ConcurrentEngine struct{
-	Scheduler Scheduler
-	WorkerCount 	int
+type ConcurrentEngine struct {
+	Scheduler   Scheduler
+	WorkerCount int
 }
 
-
-type Scheduler interface{
+type Scheduler interface {
 	Submit(Request)
-
+	ConfigureMasterWorkChan(chan Request)
+	//WorkReady(chan Request)
+	//Run()
 }
-func  (e ConcurrentEngine)Run(seeds ...Request){
-	for _, r := range seeds {
-		e.Scheduler.Submit(r)
-	}
+
+
+func (e *ConcurrentEngine) Run(seeds ...Request) {
 
 	in := make(chan Request)
 	out := make(chan ParseResult)
-	for i:=0; i <e.WorkerCount;i++{
-		CreateWorker(in,out)
+	e.Scheduler.ConfigureMasterWorkChan(in)
+	for i := 0; i < e.WorkerCount; i++ {
+		CreateWorker(in, out)
 	}
 
-	for{
-		result :=<-out
-		for _,item := range result.Items{
-		fmt.Printf("Got item:%v", item)
+	for _, r := range seeds {
+		e.Scheduler.Submit(r)
+	}
+	itemCount  :=0
+
+	for {
+		result := <-out
+		for _, item := range result.Items {
+			log.Printf("Got item #%d:%v", itemCount, item)
+			itemCount++
 		}
-	for _, request := range result.Requests {
-		e.Scheduler.Submit(request)
+		for _, request := range result.Requests {
+			e.Scheduler.Submit(request)
 
-	}
+		}
 
 	}
 
 }
 
-func CreateWorker(in chan Request, out chan ParseResult){
-	go func(){
-		for{
+func CreateWorker(in chan Request, out chan ParseResult) {
+	go func() {
+		for {
+
 			request := <-in
 			result, err := worker(request)
-			if err != nil{
+			if err != nil {
 				continue
 
 			}
-			out<-result
+			out <- result
 		}
 
 	}()

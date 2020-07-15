@@ -1,9 +1,7 @@
 package engine
 
-
 type ParserFunc func(
 	contents []byte, url string) ParseResult
-
 
 type Request struct {
 	Url       string
@@ -15,7 +13,6 @@ type ParseResult struct {
 	Items    []interface{}
 }
 
-
 type Item struct {
 	Url     string
 	Type    string
@@ -25,11 +22,11 @@ type Item struct {
 
 type NilParser struct{}
 
-
 func (NilParser) Parse(
 	_ []byte, _ string) ParseResult {
 	return ParseResult{}
 }
+
 /*
 func (NilParser) Serialize() (
 	name string, args interface{}) {
@@ -50,7 +47,6 @@ func (f *FuncParser) Serialize() (
 	name string, args interface{}) {
 	return f.name, nil
 }
-
 
 func NewFuncParser(
 	p ParserFunc, name string) *FuncParser {

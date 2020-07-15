@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"time"
 
 	"golang.org/x/net/html/charset"
 	"golang.org/x/text/encoding"
@@ -13,8 +14,12 @@ import (
 	"golang.org/x/text/transform"
 )
 
+var rateLimter = time.Tick(10 * time.Millisecond )
+
+
 //获取URL, 对应的item,和城市的url
 func Fetch(url string) ([]byte, error) {
+	<-rateLimter
 	resp, err := http.Get(url)
 	if err != nil {
 		//panic(err)
