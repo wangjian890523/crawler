@@ -8,9 +8,15 @@ type QueuedScheduler struct{
 
 }
 
+func (s QueuedScheduler) WorkerChan() chan engine.Request {
+	return make(chan engine.Request)
+}
+
+/*
 func (s QueuedScheduler) ConfigureMasterWorkChan(chan engine.Request) {
 	panic("implement me")
 }
+*/
 
 func (s *QueuedScheduler) Submit(r engine.Request){
 	s.requestChan <- r
