@@ -11,7 +11,7 @@ var(
 	profileRe =regexp.MustCompile(
 		`<a href="(http://album.zhenai.com/u/[0-9]+i)"[^>]*>([^<]+)</a>`)
 	cityUrlRe =regexp.MustCompile(
-		`href="(http://www.zhenai.com/zhenghun/[^"]+"`)
+		`href="(http://www.zhenai.com/zhenghun/[^"]+)"`)
 
 	)
 //const cityRe = `<a href="(.*album\.zhenai\.com/u/[0-9]+)"[^>]*>([^<]+)</a>`
