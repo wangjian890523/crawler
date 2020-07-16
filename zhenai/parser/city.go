@@ -7,14 +7,19 @@ import (
 	"github.com/wangjian890523/crawler/engine"
 )
 
-const cityRe = `<a href="(http://album.zhenai.com/u/[0-9]+i)"[^>]*>([^<]+)</a>`
+var(
+	profileRe =regexp.MustCompile(
+		`<a href="(http://album.zhenai.com/u/[0-9]+i)"[^>]*>([^<]+)</a>`)
+	cityUrlRe =regexp.MustCompile(
+		`href="(http://www.zhenai.com/zhenghun/[^"]+"`)
+
+	)
 //const cityRe = `<a href="(.*album\.zhenai\.com/u/[0-9]+)"[^>]*>([^<]+)</a>`
 
 
 func ParseCity(contents []byte) engine.ParseResult {
 
-	re := regexp.MustCompile(cityRe)
-	matches := re.FindAllSubmatch(contents, -1)
+	matches := profileRe.FindAllSubmatch(contents, -1)
 
 	result := engine.ParseResult{}
 	limit := 10
@@ -36,5 +41,16 @@ func ParseCity(contents []byte) engine.ParseResult {
 	}
 
 	//fmt.Printf("match found:%d\n", len(matches))
+
+	matches = cityUrlRe.FindAllSubmatch(contents, -1)
+	for _,m:= range  matches{
+		result.Requests = append(result.Requests, engine.Request{
+			Url: string(m[1]),
+			ParseFunc: ParseCity,
+
+		})
+
+	}
+
 	return result
 }
