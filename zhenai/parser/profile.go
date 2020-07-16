@@ -94,17 +94,23 @@ func ParseProfile(contents []byte, name string) engine.ParseResult {
 		}
 	*/
 
-	//match := guessRe.FindAllSubmatch( contents, -1)
-	/*
-		for _, m := range matches {
+	result := engine.ParseResult{
+		Items:[]interface{}{profile},
+	}
+
+	matches := guessRe.FindAllSubmatch( contents, -1)
+
+	for _, m := range matches {
+			name := string(m[2])
 			result.Requests = append(result.Requests,
 				engine.Request{
 					Url: string(m[1]),
-					Parser: NewProfileParser(
-						string(m[2])),
-				})
-		}
-	*/
+					ParseFunc: func(c []byte) engine.ParseResult {
+						return ParseProfile(c, name)
+			},
+			})
+			}
+
 	/*
 		match = marriageRe.FindSubmatch(contents)
 		if match != nil{
@@ -114,9 +120,9 @@ func ParseProfile(contents []byte, name string) engine.ParseResult {
 
 	*/
 
-	result := engine.ParseResult{
-		Items: []interface{}{profile},
-	}
+	//result := engine.ParseResult{
+	//	Items: []interface{}{profile},
+	//}
 
 	log.Printf("user：%v", profile )
 

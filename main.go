@@ -12,15 +12,15 @@ func main() {
 		WorkerCount: 10,
 	}
 
-	//e.Run(engine.Request{
-	//	Url:       "http://www.zhenai.com/zhenghun",
-	//	ParseFunc: parser.ParseCityList,
-	//})
-
 	e.Run(engine.Request{
-		Url:       "http://www.zhenai.com/zhenghun/shanghai",
-		ParseFunc: parser.ParseCity,
+		Url:       "http://www.zhenai.com/zhenghun",
+		ParseFunc: parser.ParseCityList,
 	})
+
+	//e.Run(engine.Request{
+	//	Url:       "http://www.zhenai.com/zhenghun/shanghai",
+	//	ParseFunc: parser.ParseCity,
+	//})
 
 }
 
