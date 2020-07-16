@@ -2,12 +2,12 @@ package engine
 
 import (
 	"github.com/lunny/log"
-	"github.com/wangjian890523/crawler/model"
 )
 
 type ConcurrentEngine struct {
 	Scheduler   Scheduler
 	WorkerCount int
+	ItemChan chan interface{}
 }
 
 type Scheduler interface {
@@ -34,15 +34,15 @@ func (e *ConcurrentEngine) Run(seeds ...Request) {
 		e.Scheduler.Submit(r)
 	}
 
-	profileCount := 0
+	//itemCount := 0
 
 	for {
 		result := <-out
 		for _, item := range result.Items {
-			if _, ok := item.(model.Profile); ok {
-				log.Printf("Got Profile #%d:%v", profileCount, item)
-				profileCount++
-			}
+
+				//log.Printf("Got item #%d:%v", itemCount, item)
+				//itemCount++
+			go  func(){e.ItemChan <- item}()
 
 		}
 

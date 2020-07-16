@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/wangjian890523/crawler/engine"
+	"github.com/wangjian890523/crawler/persist"
 	"github.com/wangjian890523/crawler/scheduler"
 	"github.com/wangjian890523/crawler/zhenai/parser"
 )
@@ -10,6 +11,7 @@ func main() {
 	e := engine.ConcurrentEngine{
 		Scheduler: &scheduler.QueuedScheduler{},
 		WorkerCount: 10,
+		ItemChan: persist.ItemServer(),
 	}
 
 	e.Run(engine.Request{
