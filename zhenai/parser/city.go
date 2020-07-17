@@ -1,7 +1,6 @@
 package parser
 
 import (
-	"fmt"
 	"regexp"
 
 	"github.com/wangjian890523/crawler/engine"
@@ -22,22 +21,23 @@ func ParseCity(contents []byte) engine.ParseResult {
 	matches := profileRe.FindAllSubmatch(contents, -1)
 
 	result := engine.ParseResult{}
-	limit := 10
+	//limit := 10
 	for _, m := range matches {
+		url:=string(m[1])
 		name := string(m[2])
-		result.Items = append(result.Items, "User "+string(m[2]))
+		//result.Items = append(result.Items, "User "+string(m[2]))
 		result.Requests = append(result.Requests, engine.Request{
 			Url: string(m[1]),
 			ParseFunc: func(c []byte) engine.ParseResult {
-				return ParseProfile(c, name)
+				return ParseProfile(c, url,name)
 			},
 		})
 
-		limit--
-		if limit == 0 {
-			break
-		}
-		fmt.Printf("City:%s, URL:%s\n", m[2], m[1])
+		//limit--
+		//if limit == 0 {
+		//	break
+		//}
+		//fmt.Printf("City:%s, URL:%s\n", m[2], m[1])
 	}
 
 	//fmt.Printf("match found:%d\n", len(matches))
