@@ -5,7 +5,7 @@ type ParserFunc func(
 
 type Request struct {
 	Url       string
-	ParseFunc func([]byte) ParseResult
+	ParseFunc ParserFunc
 }
 
 type ParseResult struct {

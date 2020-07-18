@@ -1,7 +1,6 @@
 package parser
 
 import (
-	"github.com/lunny/log"
 	"github.com/wangjian890523/crawler/engine"
 	"regexp"
 	"strconv"
@@ -101,14 +100,10 @@ func ParseProfile(contents []byte, url string, name string) engine.ParseResult {
 	matches := guessRe.FindAllSubmatch( contents, -1)
 
 	for _, m := range matches {
-		url := string(m[1])
-			name := string(m[2])
 			result.Requests = append(result.Requests,
 				engine.Request{
 					Url: string(m[1]),
-					ParseFunc: func(c []byte) engine.ParseResult {
-						return ParseProfile(c,url, name)
-			},
+					ParseFunc: ProfileParser(string(m[2])),
 			})
 			}
 
@@ -125,7 +120,7 @@ func ParseProfile(contents []byte, url string, name string) engine.ParseResult {
 	//	Items: []interface{}{profile},
 	//}
 
-	log.Printf("user：%v", profile )
+	//log.Printf("user：%v", profile )
 
 	return result
 }
@@ -138,4 +133,10 @@ func extractString(contents []byte, re *regexp.Regexp) string {
 		return ""
 	}
 
+}
+
+func ProfileParser( name string) engine.ParserFunc {
+	return  func(c []byte, url string) engine.ParseResult {
+		return ParseProfile(c,url, name)
+	}
 }

@@ -16,21 +16,18 @@ var(
 //const cityRe = `<a href="(.*album\.zhenai\.com/u/[0-9]+)"[^>]*>([^<]+)</a>`
 
 
-func ParseCity(contents []byte) engine.ParseResult {
+func ParseCity(contents []byte,url string) engine.ParseResult {
 
 	matches := profileRe.FindAllSubmatch(contents, -1)
 
 	result := engine.ParseResult{}
 	//limit := 10
 	for _, m := range matches {
-		url:=string(m[1])
-		name := string(m[2])
+
 		//result.Items = append(result.Items, "User "+string(m[2]))
 		result.Requests = append(result.Requests, engine.Request{
 			Url: string(m[1]),
-			ParseFunc: func(c []byte) engine.ParseResult {
-				return ParseProfile(c, url,name)
-			},
+			ParseFunc: ProfileParser(string(m[2])),
 		})
 
 		//limit--

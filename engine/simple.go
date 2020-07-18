@@ -2,8 +2,6 @@ package engine
 
 import (
 	"log"
-
-	"github.com/wangjian890523/crawler/fetcher"
 )
 
 type SimpleEngine struct{}
@@ -38,13 +36,3 @@ func (SimpleEngine) Run(seeds ...Request) {
 	}
 }
 
-func worker(r Request) (ParseResult, error) {
-	log.Printf("Fetching %s", r.Url)
-	body, err := fetcher.Fetch(r.Url)
-	if err != nil {
-		log.Printf("Fetcher:error"+r.Url, err)
-		return ParseResult{}, err
-	}
-
-	return r.ParseFunc(body), nil
-}

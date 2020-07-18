@@ -31,17 +31,22 @@ func TestItemServer(t *testing.T) {
 			Car:        "未购车",
 		},
 	}
-	err := save(expected)
-	if err !=nil{
-		panic(err)
 
-	}
+
 	client,err := elastic.NewClient(elastic.SetSniff(false), elastic.SetURL(host))
 	if err !=nil{
 		panic(err)
 	}
+
+	const index ="dating_test"
+	err = save(client, index, expected)
+	if err !=nil{
+		panic(err)
+
+	}
+
 	resp,err := client.Get().
-		Index("dating_profile").
+		Index(index).
 		Type(expected.Type).
 		Id(expected.Id).
 		Do(context.Background())
